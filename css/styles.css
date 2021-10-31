@@ -50,7 +50,12 @@ button{
 button:hover{
   cursor: pointer;
 }
-.calc-zero{
+button:active{
+  filter: brightness(1.15);
+}
+
+
+.zero{
   flex: 1 50%;
   text-align: left;
   padding-left: 20px;
@@ -63,6 +68,14 @@ button:hover{
 
 }
 .sidebar{
+  background-color: #FEA00A;
+  color: #FFFFFF;
+}
+.sidebar:focus{
+  background-color: #FFFFFF;
+  color: #FEA00A;
+}
+.equals{
   background-color: #FEA00A;
   color: #FFFFFF;
 }
