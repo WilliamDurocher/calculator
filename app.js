@@ -10,7 +10,6 @@ let num1 = '';
 let num2 = '';
 let oper = '';
 
-let previousResult = '';
 let operActive = false;
 
 const display = document.getElementById('result');
@@ -20,6 +19,7 @@ const operators = document.querySelectorAll("button.calc-operator")
 const clearBtn = document.getElementById("clear");
 const equalsBtn = document.getElementById("equals");
 const commaBtn = document.getElementById("comma");
+const plusminusBtn = document.getElementById('plusminus');
 
 
 /**
@@ -29,6 +29,7 @@ const commaBtn = document.getElementById("comma");
 clearBtn.addEventListener('click', clearCalc);
 equalsBtn.addEventListener('click', getResult);
 commaBtn.addEventListener('click', addComma);
+plusminusBtn.addEventListener('click', showNegative);
 
 
 numbers.forEach(num => {
@@ -53,10 +54,7 @@ numbers.forEach(num => {
 operators.forEach(operator => {
     operator.addEventListener('click', () => {
 
-        if (oper == 'plusminus'){
-            let num = parseInt(display.innerText);
-            display.innerText = showNegative(num);
-        }else if (oper == '') {
+        if (oper == '') {
             num1 = display.innerText;
             oper = operator.getAttribute('value');
             operActive = true;
@@ -71,11 +69,16 @@ function clearCalc() {
     clearBtn.innerText = 'AC';
     display.innerText = '0';
     displayVal = '';
-    previousResult = '';
     oper = '';
+    num1 = '';
+    num2 = '';
     console.log('displayVal CLEAR:', displayVal);
 
 
+}
+
+function showNegative(){
+    return display.innerText = parseInt(display.innerText) * -1;
 }
 
 function clearDisplay(){
@@ -91,14 +94,10 @@ function isComma() {
 }
 
 function getResult() {
-let firstNum = '';
 let result = '';
 
-if (previousResult != ''){
-    firstNum = parseInt(previousResult)
-}else{
-    firstNum = parseInt(num1)
-}
+let firstNum = parseInt(num1);
+
 num2 = parseInt(display.innerText);
 
     if (oper != '') {
@@ -121,7 +120,9 @@ num2 = parseInt(display.innerText);
 
 
         display.innerText = result;
-        previousResult = result;
+        num1 = result;
+        num2 = '';
+        oper = '';
         operActive = false;
     }
 }
@@ -149,7 +150,6 @@ const substract = function (num1, num2) {
     return num1 - num2;
   };
 
-  
 const multiply = function (num1, num2) {
     return num1 * num2;
   };
@@ -157,7 +157,3 @@ const multiply = function (num1, num2) {
 const divide = function (num1, num2){
     return num1 / num2;
 };
-
-const showNegative = function(num){
-    return num * -1;
-}
