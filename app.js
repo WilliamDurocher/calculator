@@ -20,16 +20,14 @@ const clearBtn = document.getElementById("clear");
 const equalsBtn = document.getElementById("equals");
 const commaBtn = document.getElementById("comma");
 const plusminusBtn = document.getElementById('plusminus');
+const percentBtn = document.getElementById('percent');
 
-
-/**
- * Check display length, format if needed
- */
 
 clearBtn.addEventListener('click', clearCalc);
 equalsBtn.addEventListener('click', getResult);
 commaBtn.addEventListener('click', addComma);
 plusminusBtn.addEventListener('click', showNegative);
+percentBtn.addEventListener('click', divideBy100);
 
 
 numbers.forEach(num => {
@@ -41,12 +39,20 @@ numbers.forEach(num => {
             clearBtn.innerText = 'C';
         }
 
-        if (operActive){
+        if (operActive) {
             clearDisplay();
             operActive = false;
         }
 
-        display.innerText = (display.innerText == '0') ? val : display.innerText += val;
+
+        if (display.innerText.startsWith('-')) {
+            display.innerText = (display.innerText == '-0') ? getNegative(val) : display.innerText += val;
+
+        } else {
+            display.innerText = (display.innerText == '0') ? val : display.innerText += val;
+
+        }
+
     });
 
 });
@@ -77,16 +83,33 @@ function clearCalc() {
 
 }
 
-function showNegative(){
-    return display.innerText = parseInt(display.innerText) * -1;
+function showNegative() {
+    if (display.innerText == '0' || operActive) {
+        return display.innerText = '-0';
+    } else {
+        return display.innerText = parseInt(display.innerText) * -1;
+    }
 }
 
-function clearDisplay(){
+function divideBy100() {
+    if (!displayIsClear()) {
+        display.innerText = (parseFloat(display.innerText) / 100).toString().replace('.', ',');
+        
+
+    }
+}
+
+
+function getNegative(num) {
+    return num * -1;
+}
+
+function clearDisplay() {
     display.innerText = '';
 }
 
 function displayIsClear() {
-    return display.innerText = '0';
+    return display.innerText == '0';
 }
 
 function isComma() {
@@ -94,11 +117,11 @@ function isComma() {
 }
 
 function getResult() {
-let result = '';
+    let result = '';
 
-let firstNum = parseInt(num1);
+    let firstNum = parseInt(num1);
 
-num2 = parseInt(display.innerText);
+    num2 = parseInt(display.innerText);
 
     if (oper != '') {
         switch (oper) {
@@ -144,16 +167,16 @@ function containsOperator(str) {
 
 const add = function (num1, num2) {
     return num1 + num2;
-  };
+};
 
 const substract = function (num1, num2) {
     return num1 - num2;
-  };
+};
 
 const multiply = function (num1, num2) {
     return num1 * num2;
-  };
-  
-const divide = function (num1, num2){
+};
+
+const divide = function (num1, num2) {
     return num1 / num2;
 };
